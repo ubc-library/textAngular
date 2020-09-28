@@ -113,14 +113,19 @@ if(_browserDetect.ie > 8 || _browserDetect.ie === undefined){
 	var _sheets = document.styleSheets;
 	/* istanbul ignore next: preference for stylesheet loaded externally */
 	for(var i = 0; i < _sheets.length; i++){
-		if(_sheets[i].media.length === 0 || _sheets[i].media.mediaText.match(/(all|screen)/ig)){
-			if(_sheets[i].href){
-				if(_sheets[i].href.match(/textangular\.(min\.|)css/ig)){
-					sheet = _sheets[i];
-					break;
+		try {
+			if (_sheets[i].media.length === 0 || _sheets[i].media.mediaText.match(/(all|screen)/ig)) {
+				if (_sheets[i].href) {
+					if (_sheets[i].href.match(/textangular\.(min\.|)css/ig)) {
+						sheet = _sheets[i];
+						break;
+					}
 				}
 			}
+		} catch(e) {
+			// ignore error to fix 'Error: Permission denied to access property "length"' error in FireFox
 		}
+
 	}
 	/* istanbul ignore next: preference for stylesheet loaded externally */
 	if(!sheet){
